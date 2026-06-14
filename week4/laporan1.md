@@ -2,26 +2,25 @@
 
 # Nslookup
 ## Pertanyaan
-1. Jalankan nslookup untuk mendapatkan alamat IP dari server web di Asia. Berapa alamat IP server tersebut? 
+1. Jalankan nslookup untuk mendapatkan alamat IP dari server web di Asia. Berapa alamat IP server tersebut?
 
 ![Gambar](../assets/image/Modul4Gambar1.png)
 
-Alamat IP server web di Asia tersebut adalah 45.60.35.225
+Berdasarkan hasil perintah nslookup, alamat IP yang diperoleh untuk server web di wilayah Asia adalah 45.60.35.225.
 
-2. Jalankan nslookup agar dapat mengetahui server DNS otoritatif untuk universitas di Eropa. 
+2. Jalankan nslookup agar dapat mengetahui server DNS otoritatif untuk universitas di Eropa.
 
 ![Gambar](../assets/image/Modul4Gambar2.png)
 
-Server DNS otoritatif untuk universitas di Eropa (ox.ac.uk) adalah:
-dns2.ox.ac.uk, auth6.dns.ox.ac.uk, dns0.ox.ac.uk, dns1.ox.ac.uk, auth5.dns.ox.ac.uk, auth4.dns.ox.ac.uk
+Dari hasil pencarian DNS, domain ox.ac.uk memiliki beberapa server DNS otoritatif yang bertugas mengelola informasi domain tersebut, yaitu dns2.ox.ac.uk, auth6.dns.ox.ac.uk, dns0.ox.ac.uk, dns1.ox.ac.uk, auth5.dns.ox.ac.uk, dan auth4.dns.ox.ac.uk.
 
-3. Jalankan nslookup untuk mencari tahu informasi mengenai server email dari Yahoo! Mail melalui salah satuserver   yang didapatkan di pertanyaan nomor 2. Apa alamat IP-nya? 
+3. Jalankan nslookup untuk mencari tahu informasi mengenai server email dari Yahoo! Mail melalui salah satu server yang didapatkan di pertanyaan nomor 2. Apa alamat IP-nya?
 
-Perintah pertama nslookup -type=MX yahoo.com 8.8.8.8 digunakan untuk mencari informasi mail server (MX record) dari domain yahoo.com dengan menggunakan DNS publik yaitu 8.8.8.8 (dns.google). Hasil yang diperoleh menunjukkan bahwa Yahoo Mail memiliki beberapa mail exchanger, yaitu mta7.am0.yahoodns.net, mta6.am0.yahoodns.net, dan mta5.am0.yahoodns.net dengan nilai prioritas (preference) yang sama, yaitu 1. Hal ini berarti ketiga server tersebut memiliki prioritas yang setara dalam menangani email masuk ke domain Yahoo.
+Perintah nslookup -type=MX yahoo.com 8.8.8.8 digunakan untuk menampilkan mail exchanger (MX Record) milik domain Yahoo dengan bantuan DNS publik Google. Dari hasil yang diperoleh terlihat bahwa Yahoo menggunakan beberapa server email, yaitu mta5.am0.yahoodns.net, mta6.am0.yahoodns.net, dan mta7.am0.yahoodns.net. Ketiganya memiliki nilai prioritas yang sama sehingga dapat digunakan secara bergantian dalam proses penerimaan email.
 
 ![Gambar](../assets/image/Modul4Gambar3.png)
 
-Selanjutnya, perintah kedua nslookup mta7.am0.yahoodns.net digunakan untuk mengetahui alamat IP dari salah satu mail server yang telah diperoleh sebelumnya. Hasilnya menunjukkan bahwa server tersebut memiliki beberapa alamat IP, seperti 67.195.228.94, 67.195.204.72, dan lainnya. Banyaknya alamat IP ini menunjukkan bahwa server menggunakan teknik load balancing atau distribusi beban agar layanan email tetap stabil dan cepat diakses.
+Kemudian dilakukan pencarian alamat IP menggunakan perintah nslookup mta7.am0.yahoodns.net. Hasilnya menunjukkan beberapa alamat IP seperti 67.195.228.94 dan 67.195.204.72. Penggunaan lebih dari satu alamat IP mengindikasikan adanya mekanisme pembagian trafik agar layanan email tetap optimal dan tidak terbebani pada satu server saja.
 
 # Tracing DNS dengan Wireshark 
 ## Langkah-langkah 
