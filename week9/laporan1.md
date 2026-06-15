@@ -1,51 +1,167 @@
-# Modul 9
-
 # Web Server
 
-Pada praktikum ini dilakukan penyempurnaan kode *skeleton web server* menggunakan bahasa Python. Program yang dibuat memanfaatkan protokol TCP dengan port 6789. Server berfungsi untuk menerima koneksi dari client, memproses permintaan HTTP yang masuk, membaca file HTML yang diminta oleh browser, kemudian mengirimkan isi file tersebut sebagai respons. Jika file yang diminta tidak tersedia, server akan mengembalikan pesan kesalahan **404 Not Found**.
+Web server merupakan komponen utama dalam layanan web yang berfungsi menerima permintaan (*request*) dari pengguna melalui browser dan mengirimkan kembali halaman atau data yang diminta. Komunikasi antara browser dan web server umumnya menggunakan protokol HTTP yang berjalan di atas protokol TCP.
 
-## Langkah-Langkah Membuat Web Server
+## Langkah-Langkah
 
-1. Buat file **webServer.py** sesuai dengan kode program yang telah disediakan.
+1. Buat sebuah folder dengan nama **week9**.
 
-2. Jalankan program tersebut melalui terminal atau VS Code. Jika berhasil dijalankan, tampilan pada terminal akan terlihat seperti berikut.
+2. Buat file **serverweb.py** menggunakan Visual Studio Code.
 
-![Gambar](../assets/image/Modul9Gambar1.png)
+3. Isi file **serverweb.py** dengan kode berikut:
 
-3. Buka browser kemudian akses alamat sesuai dengan nama file HTML yang digunakan, misalnya:
+```python
+from socket import *
+import sys
+
+# membuat socket server (TCP)
+serverSocket = socket(AF_INET, SOCK_STREAM)
+
+# konfigurasi server
+serverPort = 6789
+serverSocket.bind(('', serverPort))
+serverSocket.listen(1)
+
+while True:
+    # menerima koneksi dari client
+    print('Ready to serve...')
+    connectionSocket, addr = serverSocket.accept()
+
+    try:
+        # menerima request HTTP
+        message = connectionSocket.recv(1024).decode()
+        print(message)
+
+        # mengambil nama file yang diminta
+        filename = message.split()[1]
+
+        # membuka file HTML
+        f = open(filename[1:])
+        outputdata = f.read()
+
+        # mengirim header HTTP
+        connectionSocket.send("HTTP/1.1 200 OK\r\n".encode())
+        connectionSocket.send("Content-Type: text/html\r\n".encode())
+        connectionSocket.send("\r\n".encode())
+
+        # mengirim isi file
+        for i in range(len(outputdata)):
+            connectionSocket.send(outputdata[i].encode())
+
+        connectionSocket.send("\r\n".encode())
+        connectionSocket.close()
+
+    except IOError:
+        # mengirim pesan error jika file tidak ditemukan
+        connectionSocket.send("HTTP/1.1 404 Not Found\r\n".encode())
+        connectionSocket.send("Content-Type: text/html\r\n".encode())
+        connectionSocket.send("\r\n".encode())
+        connectionSocket.send(
+            "<html><body><h1>404 Not Found</h1></body></html>".encode()
+        )
+
+        connectionSocket.close()
+
+serverSocket.close()
+sys.exit()
+```
+
+4. Buat file **index.html**.
+
+5. Isi file **index.html** dengan kode berikut:
+
+```html
+<html>
+<head>
+    <title>Test Server</title>
+</head>
+<body>
+    <h1>Hello World!</h1>
+    <p>Ini merupakan halaman hasil dari program Web Server Python.</p>
+</body>
+</html>
+```
+
+## Hasil Percobaan
+
+1. Buka terminal kemudian jalankan program server menggunakan perintah berikut:
+
+```bash
+py serverweb.py
+```
+
+2. Setelah server aktif, buka browser dan masukkan URL berikut:
 
 ```text
 http://localhost:6789/HelloWorld.html
 ```
 
-Jika server berjalan dengan baik, halaman web akan ditampilkan seperti pada gambar berikut.
+3. Jika file berhasil ditemukan oleh server, maka halaman web akan tampil seperti berikut.
 
-![Gambar](../assets/image/Modul9Gambar2.png)
+![web](asset/image1.png)
+
+4. Selanjutnya buka tab browser baru dan masukkan URL yang mengarah ke file yang tidak tersedia:
+
+```text
+http://localhost:6789/salah.html
+```
+
+5. Browser akan menampilkan halaman error seperti berikut.
+
+![web](asset/image2(1).png)
+
+### Analisis Hasil
+
+- Server akan mengirimkan respons **404 Not Found** ketika file yang diminta tidak tersedia pada direktori server.
+- Ketika file ditemukan, server mengirimkan respons **200 OK** beserta isi halaman HTML kepada browser.
+- Hasil percobaan menunjukkan bahwa server mampu menangani permintaan yang berhasil maupun yang gagal dengan baik.
+
+Program diawali dengan pembuatan socket TCP menggunakan modul `socket`. Setelah itu server dijalankan pada port 6789 dan berada dalam kondisi menunggu koneksi dari client. Saat browser mengirimkan request, server membaca nama file yang diminta. Jika file tersedia, server mengirimkan respons HTTP 200 OK beserta isi file HTML. Sebaliknya, jika file tidak ditemukan, server mengirimkan respons HTTP 404 Not Found. Implementasi ini masih menggunakan metode *single-threaded*, sehingga hanya dapat melayani satu koneksi client pada satu waktu.
 
 ---
 
-# Latihan
+# Latihan Web Tambahan
 
-# Server
+Pada latihan ini digunakan server yang sama seperti sebelumnya. Perubahan hanya dilakukan pada isi file **index.html** untuk menghasilkan tampilan yang berbeda.
 
 ## Langkah-Langkah
 
-1. Buat file **server.py** sesuai dengan kode program yang telah disiapkan.
+1. Buka file **index.html**.
 
-2. Jalankan program server tersebut. Setelah berhasil dijalankan, tampilan terminal akan terlihat seperti gambar berikut.
+2. Ubah isi file menjadi seperti berikut:
 
-![Gambar](../assets/image/Modul9Gambar3.png)
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Server</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-3. Selanjutnya buka browser dan akses alamat sesuai dengan nama file HTML yang tersedia, misalnya:
+        h1 {
+            font-size: 80px;
+        }
+    </style>
+</head>
 
-```text
-http://localhost:6789/index.html
+<body>
+    <h1>Hello World</h1>
+</body>
+</html>
 ```
 
-Apabila server berhasil memproses permintaan dari browser, halaman web akan tampil seperti pada gambar berikut.
+3. Jalankan kembali file **serverweb.py** melalui terminal.
 
-![Gambar](../assets/image/Modul9Gambar4.png)
+4. Buka browser dan akses URL yang sama seperti sebelumnya agar halaman pada file **index.html** ditampilkan.
+
+![web](asset/image3.png)
 
 ## Hasil Pengamatan
 
-Berdasarkan percobaan yang telah dilakukan, web server mampu menerima permintaan HTTP dari browser dan mengirimkan file HTML yang diminta kepada client. Ketika browser mengakses alamat yang sesuai dengan file yang tersedia pada server, halaman web dapat ditampilkan dengan baik. Sebaliknya, apabila file yang diminta tidak ditemukan, server akan memberikan respons kesalahan berupa **404 Not Found**. Hal ini menunjukkan bahwa mekanisme dasar komunikasi antara browser dan web server telah berjalan dengan benar.
+Setelah isi file HTML diubah, tampilan halaman web juga berubah sesuai dengan kode CSS yang ditambahkan. Tulisan **Hello World** ditampilkan dengan ukuran yang lebih besar dan berada tepat di tengah halaman. Hal ini menunjukkan bahwa web server berhasil mengirimkan file HTML terbaru kepada browser tanpa perlu melakukan perubahan pada program server.
