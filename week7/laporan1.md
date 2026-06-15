@@ -84,7 +84,7 @@ serverSocket.close()
 
 ## Hasil yang Didapatkan
 
-![Gambar](../assets/image/Gambar1Mods7.png)
+![Gambar](../assets/image/image1.png)
 
 1. Jalankan program server terlebih dahulu melalui terminal.
 2. Setelah server aktif, jalankan program client pada terminal yang berbeda.
@@ -187,7 +187,7 @@ print("[SYSTEM] Server ditutup")
 
 ## Hasil yang Didapatkan
 
-![Gambar](../assets/image/Gambar2Mods7.png)
+![Gambar](../assets/image/image2.png)
 
 1. Jalankan program server terlebih dahulu.
 2. Selanjutnya jalankan program client.
