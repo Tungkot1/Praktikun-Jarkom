@@ -98,7 +98,7 @@ http://localhost:6789/HelloWorld.html
 
 3. Jika file berhasil ditemukan oleh server, maka halaman web akan tampil seperti berikut.
 
-![web](asset/image1.png)
+![web](../assets/image/image1(2).png)
 
 4. Selanjutnya buka tab browser baru dan masukkan URL yang mengarah ke file yang tidak tersedia:
 
@@ -108,7 +108,7 @@ http://localhost:6789/salah.html
 
 5. Browser akan menampilkan halaman error seperti berikut.
 
-![web](asset/image2(1).png)
+![web](../assets/image/image2(1).png)
 
 ### Analisis Hasil
 
@@ -160,7 +160,7 @@ Pada latihan ini digunakan server yang sama seperti sebelumnya. Perubahan hanya 
 
 4. Buka browser dan akses URL yang sama seperti sebelumnya agar halaman pada file **index.html** ditampilkan.
 
-![web](asset/image3.png)
+![web](../assets/image/image3.png)
 
 ## Hasil Pengamatan
 
